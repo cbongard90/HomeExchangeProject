@@ -28,8 +28,7 @@ FROM `le-wagon-1580.home_exchange.exchanges`
 
 WHERE user_cancellation_id IS NOT NULL
 AND canceled_at IS NULL
-AND creator_id = user_cancellation_id
-LIMIT 500;
+AND creator_id = user_cancellation_id;
 
 -- Data confirmation check
 -- remove any null values in the following: conversation_id, guest_user_id, host_user_id, creator_id, exchange_id
@@ -42,4 +41,27 @@ WHERE
   OR guest_user_id IS NULL
   OR host_user_id IS NULL
   OR exchange_id IS NULL
-  OR creator_id IS NULL
+  OR creator_id IS NULL;
+
+
+-- For Home Type, replace null values with 'Other'
+-- Lowercase the home type values
+SELECT
+* ,
+IF(
+  home_type IS NULL,
+  'other',
+  LOWER(home_type) 
+) AS home_type
+FROM `le-wagon-1580.home_exchange.exchanges`;
+
+-- For Residence Type, replace null values with 'Other'
+-- Lowercase the residence values
+SELECT
+* ,
+IF(
+  residence_type IS NULL,
+  'other',
+  LOWER(residence_type) 
+) AS residence_type
+FROM `le-wagon-1580.home_exchange.exchanges`;
